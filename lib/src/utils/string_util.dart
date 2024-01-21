@@ -27,6 +27,8 @@ class StringUtil {
       return getYoutubeEmbedLink(url);
     } else if (uri.host.toLowerCase().contains('vimeo')) {
       return getVimeoEmbedLink(url);
+    } else if (uri.host.toLowerCase().contains('loom')) {
+      return getLoomEmbedLink(url);
     } else {
       return url;
     }
@@ -71,5 +73,19 @@ class StringUtil {
       return null;
     }
     return 'https://player.vimeo.com/video/$vimeoId';
+  }
+
+  ///[getLoomEmbedLink] a utility method to convert the Loom urls to embed link
+  static String? getLoomEmbedLink(String url) {
+    final RegExp loomRegex = RegExp(
+      r'(?:http|https)?:?\/?\/?(?:www\.)?(?:player\.)?loom\.com\/(?:share\/)(\w+)(?:|\/\?)',
+      caseSensitive: false,
+      multiLine: false,
+    );
+    var loomId = loomRegex.firstMatch(url)?.group(1);
+    if (loomId == null) {
+      return null;
+    }
+    return 'https://www.loom.com/embed/$loomId';
   }
 }
